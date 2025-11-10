@@ -1,0 +1,19 @@
+﻿services:
+  catalogdb:
+    image: postgres:18
+    container_name: catalogdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=CatalogDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql   # DİKKAT: /data değil!
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d CatalogDb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  postgres_catalog:
